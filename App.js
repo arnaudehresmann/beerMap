@@ -4,6 +4,7 @@ import Mapbox from '@mapbox/react-native-mapbox-gl';
 import config from './utils/config';
 import breweries from './map/features.json'
 import Bubble from './components/bubble'
+import Search from './components/search'
 
 Mapbox.setAccessToken(config.get('accessToken'));
 const mapUrl = config.get('mapUrl');
@@ -40,24 +41,10 @@ const mapUrl = config.get('mapUrl');
   });
 
   const styles = StyleSheet.create({
-    container: {
+    container:{
       flex: 1,
     },
-    search: {
-      position:'absolute',
-      top: 10,
-      left: 10,
-      right: 10,
-      bottom: 0,
-      minHeight: 40,
-      flex: -1,
-    },
-    searchBox:{
-      backgroundColor:'white',
-      borderRadius: 30,
-      padding: 15,
-    }
-  });
+  })
 
   export default class App extends Component {
 
@@ -115,18 +102,6 @@ const mapUrl = config.get('mapUrl');
       );
     }
 
-    renderSearch(){
-      return (
-        <View style={styles.search}>
-          <TextInput
-            style={styles.searchBox}
-            placeholder={"Search"}>
-
-          </TextInput>
-        </View>
-      );
-    }
-
     render() {
       return (
         <View style={styles.container}>
@@ -171,7 +146,7 @@ const mapUrl = config.get('mapUrl');
           </Mapbox.ShapeSource>      
           </Mapbox.MapView>
           {this.renderLastClicked()}
-          {this.renderSearch()}
+          <Search></Search>
         </View>
       );
     }
