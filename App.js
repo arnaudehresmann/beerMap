@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, TextInput } from 'react-native';
 import Mapbox from '@mapbox/react-native-mapbox-gl';
 import config from './utils/config';
 import breweries from './map/features.json'
@@ -39,7 +39,25 @@ const mapUrl = config.get('mapUrl');
     },
   });
 
-
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    search: {
+      position:'absolute',
+      top: 10,
+      left: 10,
+      right: 10,
+      bottom: 0,
+      minHeight: 40,
+      flex: -1,
+    },
+    searchBox:{
+      backgroundColor:'white',
+      borderRadius: 30,
+      padding: 15,
+    }
+  });
 
   export default class App extends Component {
 
@@ -64,7 +82,14 @@ const mapUrl = config.get('mapUrl');
       );
     }
 
+    onMapPress(event)
+    {
+      console.log('You pressed the map here is your feature', event); // eslint-disable-line      
+    }
+
     onPress(event) {
+      const feature = event.nativeEvent.payload;
+      console.log('You pressed a layer here is your feature', feature); // eslint-disable-line
       const { geometry, properties } = feature;
   
       this.setState({
@@ -90,15 +115,32 @@ const mapUrl = config.get('mapUrl');
       );
     }
 
+    renderSearch(){
+      return (
+        <View style={styles.search}>
+          <TextInput
+            style={styles.searchBox}
+            placeholder={"Search"}>
+
+          </TextInput>
+        </View>
+      );
+    }
+
     render() {
       return (
         <View style={styles.container}>
+
+
+
           <Mapbox.MapView
               styleURL={mapUrl}
+              showUserLocation={true}
               zoomLevel={4.81}
               centerCoordinate={[3.315401, 47.077385]}
               style={styles.container}
-              
+              onPress={this.onMapPress}
+              ref={(c) => (this._map = c)}
               >
          <Mapbox.ShapeSource
             id="breweries"
@@ -129,14 +171,10 @@ const mapUrl = config.get('mapUrl');
           </Mapbox.ShapeSource>      
           </Mapbox.MapView>
           {this.renderLastClicked()}
+          {this.renderSearch()}
         </View>
       );
     }
   }
-  
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-    },
-  });
+
   
