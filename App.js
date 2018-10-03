@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, TextInput } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import Mapbox from '@mapbox/react-native-mapbox-gl';
 import config from './utils/config';
 import breweries from './map/features.json'
 import Bubble from './components/bubble'
 import Search from './components/search'
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 Mapbox.setAccessToken(config.get('accessToken'));
 const mapUrl = config.get('mapUrl');
@@ -43,6 +44,16 @@ const mapUrl = config.get('mapUrl');
   const styles = StyleSheet.create({
     container:{
       flex: 1,
+    },
+    zoomContainer:{
+      position: 'absolute',
+      bottom: 10,
+      right: 10,
+      backgroundColor: 'gray',
+      padding: 10,
+      borderRadius: 30,
+    },
+    zoomIn:{
     },
   })
 
@@ -115,7 +126,7 @@ const mapUrl = config.get('mapUrl');
               centerCoordinate={[3.315401, 47.077385]}
               style={styles.container}
               onPress={this.onMapPress}
-              ref={(c) => (this._map = c)}
+              ref={(c) => (this.map = c)}
               >
          <Mapbox.ShapeSource
             id="breweries"
@@ -147,6 +158,38 @@ const mapUrl = config.get('mapUrl');
           </Mapbox.MapView>
           {this.renderLastClicked()}
           <Search></Search>
+
+<View style={styles.zoomContainer}>
+<TouchableOpacity
+onPress={() => {
+  this.map.getZoom().then((zoom) => {
+    console.log(zoom)
+    this.map.zoomTo(zoom+1)
+  })
+}}>
+<Icon
+        name='plus'
+        size={30}
+        style={styles.zoomIn}
+        color='white'
+        />
+</TouchableOpacity>
+<TouchableOpacity
+onPress={() => {
+  this.map.getZoom().then((zoom) => {
+    console.log(zoom)
+    this.map.zoomTo(zoom-1)
+  })
+}}>
+      <Icon
+        name='minus'
+        size={30}
+        style={styles.zoomIn}
+        color='white'
+        />
+</TouchableOpacity>
+
+</View>
         </View>
       );
     }
