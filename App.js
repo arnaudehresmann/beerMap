@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import Mapbox from '@mapbox/react-native-mapbox-gl';
 import config from './utils/config';
 import breweries from './map/features.json'
 import Bubble from './components/bubble'
 import Search from './components/search'
 import Zoom from './components/zoom'
+import ClickableIcon from './components/clickableIcon'
 
 Mapbox.setAccessToken(config.get('accessToken'));
 const mapUrl = config.get('mapUrl');
@@ -53,6 +54,21 @@ const mapUrl = config.get('mapUrl');
       padding: 10,
       borderRadius: 30,
     },
+    headerContainer: {
+      position: 'absolute',
+      flexDirection: 'row',
+      flex: 1,
+      margin: 10,
+    },
+    centerUserIcon: {
+      backgroundColor: 'white',
+      borderRadius: 30,
+      padding:10,
+    },
+    touchContainer:{
+      alignSelf:'center',
+      margin: 10,
+    },
   })
 
   export default class App extends Component {
@@ -61,6 +77,7 @@ const mapUrl = config.get('mapUrl');
       super(props);
   
       this.state = {
+        location: undefined,
         latitude: undefined,
         longitude: undefined,
         title: undefined,
@@ -69,6 +86,9 @@ const mapUrl = config.get('mapUrl');
       };
   
       this.onPress = this.onPress.bind(this);
+      this.onUserLocationUpdate = this.onUserLocationUpdate.bind(this);
+      this.zoomIn = this.zoomIn.bind(this);
+      this.zoomOut = this.zoomOut.bind(this);
     }
   
     get hasValidLastClick() {
@@ -97,6 +117,33 @@ const mapUrl = config.get('mapUrl');
       });
     }
 
+    onUserLocationUpdate (location) {
+      console.log(location);
+      this.setState({ location: location });
+    }
+    
+    centerOnUser (location) {
+      
+       if (location) {
+        this.map.setCamera({
+          centerCoordinate: [location.coords.longitude, location.coords.latitude],
+          zoom: 14,
+        });
+      }
+    }
+
+    zoomIn() {
+      this.map.getZoom().then((zoom) => {
+        console.log(zoom)
+        this.map.zoomTo(zoom+1)})
+    }
+
+    zoomOut() {
+      this.map.getZoom().then((zoom) => {
+        console.log(zoom)
+        this.map.zoomTo(zoom-1)})
+    }
+
     renderLastClicked() {
       if (!this.hasValidLastClick) {
         return;
@@ -115,21 +162,20 @@ const mapUrl = config.get('mapUrl');
       return (
         <View style={styles.container}>
 
-
-
           <Mapbox.MapView
               styleURL={mapUrl}
               showUserLocation={true}
               compassEnabled={false}
               zoomEnabled={true}
               userTrackingMode={Mapbox.UserTrackingModes.Follow}
+              onUserLocationUpdate={this.onUserLocationUpdate}
               zoomLevel={4.81}
               centerCoordinate={[3.315401, 47.077385]}
               style={styles.container}
               onPress={this.onMapPress}
               ref={(c) => (this.map = c)}
               >
-         <Mapbox.ShapeSource
+            <Mapbox.ShapeSource
             id="breweries"
             cluster
             clusterRadius={25}
@@ -157,24 +203,26 @@ const mapUrl = config.get('mapUrl');
             />
           </Mapbox.ShapeSource>      
           </Mapbox.MapView>
+
           {this.renderLastClicked()}
-          <Search></Search>
+          
+          <View style={styles.headerContainer}>
+            <Search></Search>
+            <ClickableIcon 
+              onPress={() => this.centerOnUser(this.state.location)}
+              touchStyle={styles.touchContainer}
+              iconName={'crosshairs'}
+              iconSize={30}
+              iconStyle={styles.centerUserIcon}>
+            </ClickableIcon>
+          </View>
           <Zoom
-            containerStyle={styles.zoomContainer}
-            iconSize={30}
-            iconColor={'white'}
-            onZoomIn={() => {
-              this.map.getZoom().then((zoom) => {
-                console.log(zoom)
-                this.map.zoomTo(zoom+1)
-              })
-            }}
-            onZoomOut={() => {
-              this.map.getZoom().then((zoom) => {
-                console.log(zoom)
-                this.map.zoomTo(zoom-1)
-              })
-            }}></Zoom>
+              containerStyle={styles.zoomContainer}
+              iconSize={30}
+              iconColor={'white'}
+              onZoomIn={() => this.zoomIn()}
+              onZoomOut={() => this.zoomOut()}>
+            </Zoom>
         </View>
       );
     }

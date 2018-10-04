@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {TouchableOpacity} from 'react-native';
+import { TouchableOpacity } from 'react-native';
+
 
 export default class ClickableIcon extends Component {
     constructor(props) {
@@ -8,10 +9,11 @@ export default class ClickableIcon extends Component {
     }
 
     render() {
-        const { iconName, iconSize, iconStyle, iconColor, onPress } = this.props;
+        const { touchStyle, iconName, iconSize, iconStyle, iconColor, onPress } = this.props;
 
         return (
             <TouchableOpacity
+                style={touchStyle}
                 onPress={onPress}>
                 <Icon
                     name={iconName}
