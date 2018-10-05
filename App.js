@@ -4,9 +4,7 @@ import Mapbox from '@mapbox/react-native-mapbox-gl';
 import config from './utils/config';
 import breweries from './map/features.json'
 import Bubble from './components/bubble'
-import Search from './components/search'
-import Zoom from './components/zoom'
-import ClickableIcon from './components/clickableIcon'
+import MapHeader from './components/mapHeader';
 
 Mapbox.setAccessToken(config.get('accessToken'));
 const mapUrl = config.get('mapUrl');
@@ -46,28 +44,9 @@ const mapUrl = config.get('mapUrl');
     container:{
       flex: 1,
     },
-    zoomContainer:{
-      position: 'absolute',
-      bottom: 10,
-      right: 10,
-      backgroundColor: 'gray',
-      padding: 10,
-      borderRadius: 30,
-    },
     headerContainer: {
       position: 'absolute',
-      flexDirection: 'row',
       flex: 1,
-      margin: 10,
-    },
-    centerUserIcon: {
-      backgroundColor: 'white',
-      borderRadius: 30,
-      padding:10,
-    },
-    touchContainer:{
-      alignSelf:'center',
-      margin: 10,
     },
   })
 
@@ -87,8 +66,6 @@ const mapUrl = config.get('mapUrl');
   
       this.onPress = this.onPress.bind(this);
       this.onUserLocationUpdate = this.onUserLocationUpdate.bind(this);
-      this.zoomIn = this.zoomIn.bind(this);
-      this.zoomOut = this.zoomOut.bind(this);
     }
   
     get hasValidLastClick() {
@@ -130,18 +107,6 @@ const mapUrl = config.get('mapUrl');
           zoom: 14,
         });
       }
-    }
-
-    zoomIn() {
-      this.map.getZoom().then((zoom) => {
-        console.log(zoom)
-        this.map.zoomTo(zoom+1)})
-    }
-
-    zoomOut() {
-      this.map.getZoom().then((zoom) => {
-        console.log(zoom)
-        this.map.zoomTo(zoom-1)})
     }
 
     renderLastClicked() {
@@ -205,24 +170,11 @@ const mapUrl = config.get('mapUrl');
           </Mapbox.MapView>
 
           {this.renderLastClicked()}
-          
-          <View style={styles.headerContainer}>
-            <Search></Search>
-            <ClickableIcon 
-              onPress={() => this.centerOnUser(this.state.location)}
-              touchStyle={styles.touchContainer}
-              iconName={'crosshairs'}
-              iconSize={30}
-              iconStyle={styles.centerUserIcon}>
-            </ClickableIcon>
-          </View>
-          <Zoom
-              containerStyle={styles.zoomContainer}
-              iconSize={30}
-              iconColor={'white'}
-              onZoomIn={() => this.zoomIn()}
-              onZoomOut={() => this.zoomOut()}>
-            </Zoom>
+
+          <MapHeader 
+            style={styles.headerContainer}
+            onPressCenter={() => this.centerOnUser(this.state.location)}
+            />
         </View>
       );
     }

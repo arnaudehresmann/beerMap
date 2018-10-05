@@ -2,6 +2,14 @@ import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { TouchableOpacity } from 'react-native';
 
+const styles = {
+    touch: {
+        backgroundColor: 'white',
+        borderRadius: 30,
+        alignItems: 'center',
+        padding: 10,
+    }
+}
 
 export default class ClickableIcon extends Component {
     constructor(props) {
@@ -9,16 +17,16 @@ export default class ClickableIcon extends Component {
     }
 
     render() {
-        const { touchStyle, iconName, iconSize, iconStyle, iconColor, onPress } = this.props;
+        const { iconName, iconSize, iconStyle, iconColor, onPress } = this.props;
 
         return (
             <TouchableOpacity
-                style={touchStyle}
-                onPress={onPress}>
+                onPress={onPress}
+                style = {[styles.touch]}>
                 <Icon
                     name={iconName}
                     size={iconSize}
-                    style={iconStyle}
+                    style={[styles.icon, iconStyle]}
                     color={iconColor}
                 />
             </TouchableOpacity>

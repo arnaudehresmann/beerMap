@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         backgroundColor: 'white',
         padding: 15,
+        height:60,
       },
 });
 
@@ -19,7 +20,7 @@ export default class Search extends Component {
     render (){
         return (
             <TextInput
-                style={styles.searchInput}
+                style={[styles.searchInput, this.props.style]}
                 returnKeyType='search'
                 selectTextOnFocus={true}
                 placeholder="Search">   

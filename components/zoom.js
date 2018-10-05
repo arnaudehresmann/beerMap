@@ -8,16 +8,18 @@ export default class Zoom extends Component {
     }
 
     render() {
-        const { containerStyle, iconSize, iconColor, onZoomIn, onZoomOut} = this.props;
+        const { containerStyle, iconSize, iconColor, onZoomIn, onZoomOut, iconStyle} = this.props;
         return (
             <View style={ containerStyle }>
                 <ClickableIcon
+                    style={iconStyle}
                     iconName={'plus'}
                     iconSize={iconSize}
                     iconColor={iconColor}
                     onPress={onZoomIn}>
                 </ClickableIcon>
                 <ClickableIcon
+                    style={iconStyle}
                     iconName={'minus'}
                     iconSize={iconSize}
                     iconColor={iconColor}
