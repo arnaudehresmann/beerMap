@@ -5,6 +5,7 @@ import config from './utils/config';
 import breweries from './map/features.json'
 import Bubble from './components/bubble'
 import MapHeader from './components/mapHeader';
+import VersionNumber from 'react-native-version-number';
 
 Mapbox.setAccessToken(config.get('accessToken'));
 const mapUrl = config.get('mapUrl');
@@ -48,6 +49,11 @@ const mapUrl = config.get('mapUrl');
       position: 'absolute',
       flex: 1,
     },
+    version:{
+      position: 'absolute',
+      bottom: 10,
+      right: 10,
+    }
   })
 
   export default class App extends Component {
@@ -175,6 +181,7 @@ const mapUrl = config.get('mapUrl');
             style={styles.headerContainer}
             onPressCenter={() => this.centerOnUser(this.state.location)}
             />
+          <Text style={styles.version}>Version {VersionNumber.appVersion}</Text>
         </View>
       );
     }
