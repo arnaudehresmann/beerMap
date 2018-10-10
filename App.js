@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, Animated,Dimensions, Image  } from 'react-native';
 import Mapbox from '@mapbox/react-native-mapbox-gl';
 import config from './utils/config';
 import breweries from './map/features.json'
 import Bubble from './components/bubble'
 import MapHeader from './components/mapHeader';
 import VersionNumber from 'react-native-version-number';
+import SlidingUpPanel from 'rn-sliding-up-panel';
+import ClickableIcon from './components/clickableIcon';
 
 Mapbox.setAccessToken(config.get('accessToken'));
 const mapUrl = config.get('mapUrl');
+const {height} = Dimensions.get('window')
 
   const layerStyles = Mapbox.StyleSheet.create({
     singleBrewery: {
@@ -23,7 +26,7 @@ const mapUrl = config.get('mapUrl');
   
     clusteredBreweries: {
       circlePitchAlignment: 'map',
-      circleColor: 'orange',
+      circleColor: '#8bc34a',
       circleRadius: Mapbox.StyleSheet.source(
         [[0, 15], [100, 20], [750, 30]],
         'point_count',
@@ -53,21 +56,47 @@ const mapUrl = config.get('mapUrl');
       position: 'absolute',
       bottom: 10,
       right: 10,
+    },
+    containerSheet: {
+      flex: 1,
+      margin: 10,
+    },
+    panel: {
+      flex: 1,
+      backgroundColor: 'white',
+      position: 'relative'
+    },
+    panelHeader: {
+      height: 60,
+      backgroundColor: '#33691e',
+      alignItems: 'center',
+      justifyContent: 'center'
+    },
+    panelHederIcon:{
+      backgroundColor: '#33691e',
     }
   })
-
+ 
   export default class App extends Component {
+
+    static defaultProps = {
+      draggableRange: {
+        top: height,
+        bottom: 80
+      }
+    }
 
     constructor(props) {
       super(props);
   
       this.state = {
+        feature: undefined,
         location: undefined,
         latitude: undefined,
         longitude: undefined,
         title: undefined,
         adr1: undefined,
-        adr2: undefined,
+        adr2: undefined,   
       };
   
       this.onPress = this.onPress.bind(this);
@@ -121,11 +150,11 @@ const mapUrl = config.get('mapUrl');
       }
   
       return (
-        <Bubble>
+        <View>
           <Text>{this.state.title}</Text>
           <Text>{this.state.adr1}</Text>
           <Text>{this.state.adr2}</Text>
-        </Bubble>
+          </View>
       );
     }
 
@@ -182,6 +211,26 @@ const mapUrl = config.get('mapUrl');
             onPressCenter={() => this.centerOnUser(this.state.location)}
             />
           <Text style={styles.version}>Version {VersionNumber.appVersion}</Text>
+          <SlidingUpPanel
+            visible
+            startCollapsed
+            showBackdrop={false}
+            ref={c => this._panel = c}
+            draggableRange={this.props.draggableRange}>
+            <View style={styles.panel}>
+              <View style={styles.panelHeader}>
+              <ClickableIcon
+                    iconName={'chevron-up'}
+                    iconSize={20}
+                    iconColor={'#212121'}
+                    touchStyle={styles.panelHederIcon}
+                />
+              </View>
+              <View style={styles.containerSheet}>
+                {this.renderLastClicked()}
+              </View>
+            </View>
+          </SlidingUpPanel>
         </View>
       );
     }

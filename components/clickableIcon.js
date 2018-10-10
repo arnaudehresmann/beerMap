@@ -17,16 +17,16 @@ export default class ClickableIcon extends Component {
     }
 
     render() {
-        const { iconName, iconSize, iconStyle, iconColor, onPress } = this.props;
+        const { iconName, iconSize, iconStyle, iconColor, onPress, touchStyle } = this.props;
 
         return (
             <TouchableOpacity
                 onPress={onPress}
-                style = {[styles.touch]}>
+                style = {[styles.touch, touchStyle]}>
                 <Icon
                     name={iconName}
                     size={iconSize}
-                    style={[styles.icon, iconStyle]}
+                    style={iconStyle}
                     color={iconColor}
                 />
             </TouchableOpacity>
