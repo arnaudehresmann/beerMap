@@ -67,7 +67,7 @@ const {height} = Dimensions.get('window')
       position: 'relative'
     },
     panelHeader: {
-      height: 60,
+      height: 40,
       backgroundColor: '#33691e',
       alignItems: 'center',
       justifyContent: 'center'
@@ -82,7 +82,7 @@ const {height} = Dimensions.get('window')
     static defaultProps = {
       draggableRange: {
         top: height,
-        bottom: 80
+        bottom: 60
       }
     }
 
@@ -127,6 +127,15 @@ const {height} = Dimensions.get('window')
         adr1: properties.bra_adresse_4 ,
         adr2: properties.bra_adresse_6,
       });
+
+      console.log("is valid: " + this.hasValidLastClick);
+      if (typeof geometry.coordinates[1] === 'number' &&
+          typeof geometry.coordinates[0] === 'number') {
+        this._panel.transitionTo(150);
+      } else
+      {
+        this._panel.transitionTo(0);
+      }
     }
 
     onUserLocationUpdate (location) {
@@ -204,8 +213,6 @@ const {height} = Dimensions.get('window')
           </Mapbox.ShapeSource>      
           </Mapbox.MapView>
 
-          {this.renderLastClicked()}
-
           <MapHeader 
             style={styles.headerContainer}
             onPressCenter={() => this.centerOnUser(this.state.location)}
@@ -220,7 +227,7 @@ const {height} = Dimensions.get('window')
             <View style={styles.panel}>
               <View style={styles.panelHeader}>
               <ClickableIcon
-                    iconName={'chevron-up'}
+                    iconName={'minus'}
                     iconSize={20}
                     iconColor={'#212121'}
                     touchStyle={styles.panelHederIcon}
