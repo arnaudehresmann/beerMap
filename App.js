@@ -75,11 +75,6 @@ const {height} = Dimensions.get('window')
     panelHederIcon:{
       backgroundColor: '#33691e',
     },
-    detailBubble: {
-      borderRadius: 30,
-      backgroundColor: "white",
-      paddingLeft: 30,
-    },
   })
  
   export default class App extends Component {
@@ -163,11 +158,11 @@ const {height} = Dimensions.get('window')
       }
   
       return (
-        <View style={styles.detailBubble}>
+        <View>
           <Text>{this.state.title}</Text>
           <Text>{this.state.adr1}</Text>
           <Text>{this.state.adr2}</Text>
-          </View>
+        </View>
       );
     }
 
@@ -186,59 +181,60 @@ const {height} = Dimensions.get('window')
               centerCoordinate={[3.315401, 47.077385]}
               style={styles.container}
               onPress={this.onMapPress}
-              ref={(c) => (this.map = c)}
-              >
+              ref={(c) => (this.map = c)} >
+
             <Mapbox.ShapeSource
-            id="breweries"
-            cluster
-            clusterRadius={25}
-            clusterMaxZoom={12}
-            shape={breweries}
-            onPress={this.onPress}
-            >
-            <Mapbox.SymbolLayer
-              id="pointCount"
-              style={layerStyles.clusterCount}
-            />
+              id="breweries"
+              cluster
+              clusterRadius={25}
+              clusterMaxZoom={12}
+              shape={breweries}
+              onPress={this.onPress} >
 
-            <Mapbox.CircleLayer
-              id="clusteredBreweries"
-              belowLayerID="pointCount"
-              filter={['has', 'point_count']}
-              style={layerStyles.clusteredBreweries}
-            />
+              <Mapbox.SymbolLayer
+                id="pointCount"
+                style={layerStyles.clusterCount} />
 
-            <Mapbox.SymbolLayer
-              id="singleBrewery"
-              filter={['!has', 'point_count']}
-              style={layerStyles.singleBrewery}
-              belowLayerID="pointCount"
-            />
-          </Mapbox.ShapeSource>      
+              <Mapbox.CircleLayer
+                id="clusteredBreweries"
+                belowLayerID="pointCount"
+                filter={['has', 'point_count']}
+                style={layerStyles.clusteredBreweries} />
+
+              <Mapbox.SymbolLayer
+                id="singleBrewery"
+                filter={['!has', 'point_count']}
+                style={layerStyles.singleBrewery}
+                belowLayerID="pointCount" />
+
+            </Mapbox.ShapeSource>      
           </Mapbox.MapView>
 
           <MapHeader 
             style={styles.headerContainer}
-            onPressCenter={() => this.centerOnUser(this.state.location)}
-            />
+            onPressCenter={() => this.centerOnUser(this.state.location)} />
+
           <Text style={styles.version}>Version {VersionNumber.appVersion}</Text>
+
           <SlidingUpPanel
             visible
             startCollapsed
             showBackdrop={false}
             ref={c => this._panel = c}
-            draggableRange={this.props.draggableRange}>
+            draggableRange={this.props.draggableRange} >
+
             <View style={styles.panel}>
               <View style={styles.panelHeader}>
-              <ClickableIcon
-                    iconName={'minus'}
-                    iconSize={20}
-                    iconColor={'#212121'}
-                    touchStyle={styles.panelHederIcon}
-                />
+                <ClickableIcon
+                  iconName={'minus'}
+                  iconSize={20}
+                  iconColor={'#212121'}
+                  touchStyle={styles.panelHederIcon} />
               </View>
               <View style={styles.containerSheet}>
-                {this.renderLastClicked()}
+                <Bubble>
+                  {this.renderLastClicked()}
+                </Bubble>
               </View>
             </View>
           </SlidingUpPanel>
