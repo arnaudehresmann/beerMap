@@ -63,7 +63,7 @@ const {height} = Dimensions.get('window')
     },
     panel: {
       flex: 1,
-      backgroundColor: 'white',
+      backgroundColor: '#33691e',
       position: 'relative'
     },
     panelHeader: {
@@ -74,7 +74,12 @@ const {height} = Dimensions.get('window')
     },
     panelHederIcon:{
       backgroundColor: '#33691e',
-    }
+    },
+    detailBubble: {
+      borderRadius: 30,
+      backgroundColor: "white",
+      paddingLeft: 30,
+    },
   })
  
   export default class App extends Component {
@@ -88,9 +93,8 @@ const {height} = Dimensions.get('window')
 
     constructor(props) {
       super(props);
-  
+
       this.state = {
-        feature: undefined,
         location: undefined,
         latitude: undefined,
         longitude: undefined,
@@ -159,7 +163,7 @@ const {height} = Dimensions.get('window')
       }
   
       return (
-        <View>
+        <View style={styles.detailBubble}>
           <Text>{this.state.title}</Text>
           <Text>{this.state.adr1}</Text>
           <Text>{this.state.adr2}</Text>
