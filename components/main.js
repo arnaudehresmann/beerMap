@@ -76,14 +76,14 @@ const {height} = Dimensions.get('window')
     panelHederIcon:{
       backgroundColor: '#33691e',
     },
-  })
+  });
  
   export default class Main extends Component {
 
     static defaultProps = {
       draggableRange: {
         top: height,
-        bottom: 60
+        bottom: 110
       }
     }
 
@@ -104,10 +104,7 @@ const {height} = Dimensions.get('window')
       this.onUserLocationUpdate = this.onUserLocationUpdate.bind(this);
     }
 
-    componentDidMount() {
-        const { currentUser } = firebase.auth()
-        this.setState({ currentUser })
-    }
+ 
   
     get hasValidLastClick() {
       return (
@@ -137,7 +134,7 @@ const {height} = Dimensions.get('window')
       console.log("is valid: " + this.hasValidLastClick);
       if (typeof geometry.coordinates[1] === 'number' &&
           typeof geometry.coordinates[0] === 'number') {
-        this._panel.transitionTo(150);
+        this._panel.transitionTo(200);
       } else
       {
         this._panel.transitionTo(0);
@@ -228,7 +225,8 @@ const {height} = Dimensions.get('window')
             startCollapsed
             showBackdrop={false}
             ref={c => this._panel = c}
-            draggableRange={this.props.draggableRange} >
+            draggableRange={this.props.draggableRange} 
+            >
 
             <View style={styles.panel}>
               <View style={styles.panelHeader}>
