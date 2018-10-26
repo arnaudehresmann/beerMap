@@ -12,7 +12,7 @@ import firebase from 'react-native-firebase'
 
 Mapbox.setAccessToken(config.get('accessToken'));
 const mapUrl = config.get('mapUrl');
-const {height} = Dimensions.get('window')
+const { width, height } = Dimensions.get('window');
 
   const layerStyles = Mapbox.StyleSheet.create({
     singleBrewery: {
