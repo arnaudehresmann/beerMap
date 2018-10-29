@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Animated,Dimensions, Image  } from 'react-native';
+import { StyleSheet, View, Text, Dimensions } from 'react-native';
 import Mapbox from '@mapbox/react-native-mapbox-gl';
-import config from './../utils/config';
-import breweries from './../map/features.json'
-import Bubble from './bubble'
-import MapHeader from './mapHeader';
+import config from './../utils/Config';
+import breweries from './../../map/features.json'
+import Bubble from './../components/Bubble'
+import MapHeader from './../components/MapHeader';
 import VersionNumber from 'react-native-version-number';
 import SlidingUpPanel from 'rn-sliding-up-panel';
-import ClickableIcon from './clickableIcon';
-import firebase from 'react-native-firebase'
+import ClickableIcon from './../components/ClickableIcon';
 
 Mapbox.setAccessToken(config.get('accessToken'));
 const mapUrl = config.get('mapUrl');
-const { width, height } = Dimensions.get('window');
+const { height } = Dimensions.get('window');
 
   const layerStyles = Mapbox.StyleSheet.create({
     singleBrewery: {

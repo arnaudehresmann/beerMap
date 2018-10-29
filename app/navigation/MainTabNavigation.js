@@ -1,13 +1,14 @@
 import React from 'react';
-import { Platform } from 'react-native';
 import { createStackNavigator, createMaterialTopTabNavigator, createSwitchNavigator, createBottomTabNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import HomeScreen from '../components/main';
-import LoginScreen from '../components/login'
-import SettingsScreen from '../components/settings';
+import HomeScreen from '../screens/Main';
+import LoginScreen from '../screens/Login'
+import SettingsScreen from '../screens/Settings';
+import SignUp from '../screens/Signup'
 
 const AuthStack = createSwitchNavigator({
   Login: LoginScreen,
+  SignUp: SignUp
 });
 
 const HomeStack = createSwitchNavigator({

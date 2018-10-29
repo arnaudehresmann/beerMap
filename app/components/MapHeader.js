@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
-import ClickableIcon from './clickableIcon'
-import Search from './search';
+import ClickableIcon from './ClickableIcon'
+import Search from './Search';
 
 const styles = StyleSheet.create({
     headerContainer:{

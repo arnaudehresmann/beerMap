@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import ClickableIcon from './clickableIcon'
+import ClickableIcon from './ClickableIcon'
 
 export default class Zoom extends Component {
     constructor(props) {
