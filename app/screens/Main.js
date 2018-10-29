@@ -55,7 +55,7 @@ const { height } = Dimensions.get('window');
     },
     version:{
       position: 'absolute',
-      bottom: 10,
+      bottom: 40,
       right: 10,
     },
     containerSheet: {
