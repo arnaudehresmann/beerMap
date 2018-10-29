@@ -16,7 +16,7 @@ const { height } = Dimensions.get('window');
 
   const layerStyles = Mapbox.StyleSheet.create({
     singleBrewery: {
-      textField: '{title}',
+      textField: '{name}',
       textSize: 12,
       textPitchAlignment: 'map',
       iconImage: 'beer-15',
@@ -126,9 +126,9 @@ const { height } = Dimensions.get('window');
       this.setState({
         latitude: geometry.coordinates[1],
         longitude: geometry.coordinates[0],
-        title: properties.title,
-        adr1: properties.bra_adresse_4 ,
-        adr2: properties.bra_adresse_6,
+        title: properties.name,
+        adr1: properties.adresse4 ,
+        adr2: properties.adresse6,
       });
 
       console.log("is valid: " + this.hasValidLastClick);
@@ -192,7 +192,7 @@ const { height } = Dimensions.get('window');
               cluster
               clusterRadius={25}
               clusterMaxZoom={12}
-              shape={breweries}
+              url={config.get('breweriesUrl')}
               onPress={this.onPress} >
 
               <Mapbox.SymbolLayer
