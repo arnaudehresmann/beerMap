@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
         margin: 10,
     },
     search:{
-        flex: 5,
+        flex: 6,
         margin: 10, 
     }
 });
@@ -27,12 +27,6 @@ export default class MapHeader extends Component {
     render() {
         return (
             <View style={[styles.headerContainer, this.props.style]}>
-                <View style={styles.container}>
-                    <ClickableIcon
-                        iconName={'bars'}
-                        iconSize={20}
-                    />
-                </View>
                 <Search style={styles.search}></Search>
                 <View style={styles.container}>
                     <ClickableIcon
