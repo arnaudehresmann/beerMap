@@ -8,6 +8,7 @@ import MapHeader from './../components/MapHeader';
 import VersionNumber from 'react-native-version-number';
 import SlidingUpPanel from 'rn-sliding-up-panel';
 import ClickableIcon from './../components/ClickableIcon';
+import CommonStyles from '../styles/Common'
 
 Mapbox.setAccessToken(config.get('accessToken'));
 const mapUrl = config.get('mapUrl');
@@ -26,7 +27,7 @@ const { height } = Dimensions.get('window');
   
     clusteredBreweries: {
       circlePitchAlignment: 'map',
-      circleColor: '#8bc34a',
+      circleColor: CommonStyles.lightPrimaryColor,
       circleRadius: Mapbox.StyleSheet.source(
         [[0, 15], [100, 20], [750, 30]],
         'point_count',
@@ -63,17 +64,17 @@ const { height } = Dimensions.get('window');
     },
     panel: {
       flex: 1,
-      backgroundColor: '#33691e',
+      backgroundColor: CommonStyles.defaultPrimaryColor,
       position: 'relative'
     },
     panelHeader: {
       height: 40,
-      backgroundColor: '#33691e',
+      backgroundColor: CommonStyles.defaultPrimaryColor,
       alignItems: 'center',
       justifyContent: 'center'
     },
     panelHederIcon:{
-      backgroundColor: '#33691e',
+      backgroundColor: CommonStyles.defaultPrimaryColor,
     },
   });
  
@@ -232,7 +233,7 @@ const { height } = Dimensions.get('window');
                 <ClickableIcon
                   iconName={'minus'}
                   iconSize={20}
-                  iconColor={'#212121'}
+                  iconColor={CommonStyles.primaryTextColor}
                   touchStyle={styles.panelHederIcon} />
               </View>
               <View style={styles.containerSheet}>

@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import CommonStyles from './../styles/Common';
 
 const styles = StyleSheet.create({
   container: {
     borderRadius: 30,
-    backgroundColor: "white",
+    backgroundColor: CommonStyles.defaultBackgroundColor,
     paddingLeft: 30,
   }
 });

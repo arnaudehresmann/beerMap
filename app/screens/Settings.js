@@ -1,6 +1,7 @@
 import React from 'react'
 import { Button, Image, View, StyleSheet } from 'react-native'
 import firebase from 'react-native-firebase'
+import CommonStyles from '../styles/Common'
 
 export default class Settings extends React.Component {
     constructor(props){
@@ -14,7 +15,7 @@ export default class Settings extends React.Component {
 
     componentDidMount() {
         const currentUser  = firebase.auth().currentUser;
-        this.setState({ currentUser })
+        this.setState({ currentUser })     
     }
 
     onPress(){
@@ -27,6 +28,7 @@ export default class Settings extends React.Component {
 
     logout() {
         firebase.auth().signOut();
+        this.setState({ currentUser: null })  
     }
 
     login() {
@@ -41,7 +43,7 @@ export default class Settings extends React.Component {
                 source={require('../assets/user.png')}></Image>
             <Button 
                 style={styles.login} 
-                color="#689F38"
+                color={CommonStyles.defaultPrimaryColor}
                 title={this.state.currentUser != null ? 'Log out' : 'Log in'}
                 onPress={this.onPress}>
             </Button>

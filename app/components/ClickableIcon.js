@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { TouchableOpacity } from 'react-native';
+import CommonStyles from './../styles/Common';
 
 const styles = {
     touch: {
-        backgroundColor: 'white',
+        backgroundColor: CommonStyles.defaultBackgroundColor,
         borderRadius: 30,
         alignItems: 'center',
-        padding: 10,
+        padding: 10,       
     }
 }
 

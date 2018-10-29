@@ -1,6 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text, TextInput, View, Button } from 'react-native'
 import firebase from 'react-native-firebase'
+import CommonStyles from '../styles/Common'
 
 export default class SignUp extends React.Component {
   state = { email: '', password: '', errorMessage: null }
@@ -18,7 +19,7 @@ render() {
       <View style={styles.container}>
         <Text>Sign Up</Text>
         {this.state.errorMessage &&
-          <Text style={{ color: 'red' }}>
+          <Text style={{ color: CommonStyles.errorColor }}>
             {this.state.errorMessage}
           </Text>}
         <TextInput

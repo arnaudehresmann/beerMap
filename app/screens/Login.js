@@ -1,9 +1,11 @@
 import React from 'react'
 import { StyleSheet, Text, TextInput, View, Button } from 'react-native'
 import firebase from 'react-native-firebase'
-
+import CommonStyles from '../styles/Common'
 export default class Login extends React.Component {
+
   state = { email: '', password: '', errorMessage: null }
+  
   handleLogin = () => {
     const { email, password } = this.state
     firebase
@@ -18,7 +20,7 @@ export default class Login extends React.Component {
       <View style={styles.container}>
         <Text>Login</Text>
         {this.state.errorMessage &&
-          <Text style={{ color: 'red' }}>
+          <Text style={{ color: CommonStyles.errorColor }}>
             {this.state.errorMessage}
           </Text>}
         <TextInput

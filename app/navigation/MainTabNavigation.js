@@ -1,15 +1,9 @@
 import React from 'react';
-import { createStackNavigator, createMaterialTopTabNavigator, createSwitchNavigator, createBottomTabNavigator } from 'react-navigation';
+import { createStackNavigator, createMaterialTopTabNavigator, createSwitchNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import HomeScreen from '../screens/Main';
-import LoginScreen from '../screens/Login'
 import SettingsScreen from '../screens/Settings';
-import SignUp from '../screens/Signup'
-
-const AuthStack = createSwitchNavigator({
-  Login: LoginScreen,
-  SignUp: SignUp
-});
+import commonStyles from '../styles/Common'
 
 const HomeStack = createSwitchNavigator({
   Home: HomeScreen,
@@ -26,20 +20,14 @@ const SettingsStack = createStackNavigator({
     navigationOptions: {
       header: null,
     }
-  },
-  Login: LoginScreen,
-  },
-  {
-    initialRouteName : 'Settings',
   }
+  },
 );
 
 SettingsStack.navigationOptions = {
   tabBarLabel: 'Settings',
   tabBarIcon: ({ tintColor }) => <Icon name="cogs" size={20} color={tintColor} />,
 };
-
-
 
 export default createMaterialTopTabNavigator({
   HomeStack,
@@ -48,10 +36,10 @@ export default createMaterialTopTabNavigator({
 {
   tabBarOptions: {
     style: {
-      backgroundColor: '#33691e',
+      backgroundColor: commonStyles.darkPrimaryColor,
     },
     indicatorStyle :{
-      backgroundColor: '#DCEDC8',
+      backgroundColor: commonStyles.dividerColor,
     },
     showIcon: true,
     showLabel: false
