@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Dimensions } from 'react-native';
+import { StyleSheet, View, Text, Dimensions, Linking } from 'react-native';
 import Mapbox from '@mapbox/react-native-mapbox-gl';
 import config from './../utils/Config';
 import breweries from './../../map/features.json'
@@ -76,6 +76,14 @@ const { height } = Dimensions.get('window');
     panelHederIcon:{
       backgroundColor: CommonStyles.defaultPrimaryColor,
     },
+    detailIcons: {
+      flexDirection: 'row',
+      paddingTop: 5,
+    },
+    detailIcon: {
+      margin: 5,
+    }
+
   });
  
   export default class Main extends Component {
@@ -97,6 +105,9 @@ const { height } = Dimensions.get('window');
         title: undefined,
         adr1: undefined,
         adr2: undefined, 
+        web: undefined,
+        fb: undefined,
+        email: undefined,
         currentUser: null,  
       };
   
@@ -129,6 +140,9 @@ const { height } = Dimensions.get('window');
         title: properties.name,
         adr1: properties.adresse4 ,
         adr2: properties.adresse6,
+        web: properties.website,
+        fb: properties.facebook,
+        email: properties.email,
       });
 
       console.log("is valid: " + this.hasValidLastClick);
@@ -166,6 +180,9 @@ const { height } = Dimensions.get('window');
           <Text>{this.state.title}</Text>
           <Text>{this.state.adr1}</Text>
           <Text>{this.state.adr2}</Text>
+          <Text>{this.state.web}</Text>
+          <Text>{this.state.fb}</Text>
+          <Text>{this.state.email}</Text>
         </View>
       );
     }
@@ -240,6 +257,23 @@ const { height } = Dimensions.get('window');
                 <Bubble>
                   {this.renderLastClicked()}
                 </Bubble>
+                <View style={styles.detailIcons}>
+                  <ClickableIcon 
+                    iconName={'facebook-square'}
+                    touchStyle={styles.detailIcon}
+                    onPress={()=> Linking.openURL(this.state.fb)}
+                    iconSize={30} />
+                  <ClickableIcon 
+                    iconName={'at'}
+                    touchStyle={styles.detailIcon}
+                    onPress={() => Linking.openURL('mailto:'+this.state.email)}
+                    iconSize={30} />
+                  <ClickableIcon 
+                    iconName={'globe'}
+                    touchStyle={styles.detailIcon}
+                    onPress={()=> Linking.openURL(this.state.web)}
+                    iconSize={30} />
+                </View>
               </View>
             </View>
           </SlidingUpPanel>
