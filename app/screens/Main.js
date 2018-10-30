@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { StyleSheet, View, Text, Dimensions, Linking } from 'react-native';
 import Mapbox from '@mapbox/react-native-mapbox-gl';
 import config from './../utils/Config';
-import breweries from './../../map/features.json'
 import MapHeader from './../components/MapHeader';
 import VersionNumber from 'react-native-version-number';
 import SlidingUpPanel from 'rn-sliding-up-panel';
