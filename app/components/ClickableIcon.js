@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import CommonStyles from './../styles/Common';
 
 const styles = {
@@ -8,7 +8,9 @@ const styles = {
         backgroundColor: CommonStyles.defaultBackgroundColor,
         borderRadius: 30,
         alignItems: 'center',
-        padding: 10,       
+    },
+    icon:{
+        margin: 10,
     }
 }
 
@@ -18,18 +20,20 @@ export default class ClickableIcon extends Component {
     }
 
     render() {
-        const { iconName, iconSize, iconStyle, iconColor, onPress, touchStyle } = this.props;
-
+        const { name, size, style, color, onPress, touchStyle } = this.props;
         return (
             <TouchableOpacity
-                onPress={onPress}
-                style = {[styles.touch, touchStyle]}>
-                <Icon
-                    name={iconName}
-                    size={iconSize}
-                    style={iconStyle}
-                    color={iconColor}
-                />
+                onPress={() => onPress()}
+                style = {[styles.touch, touchStyle]}
+                >
+                <View>
+                    <Icon
+                        name={name}
+                        size={size}
+                        style={[style, styles.icon]}
+                        color={color}
+                    />
+                </View>
             </TouchableOpacity>
         );
     }

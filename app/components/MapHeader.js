@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     container:{
         flex:1,
         justifyContent: 'center',
-        margin: 10,
+        padding: 10,
     },
     search:{
         flex: 6,
@@ -31,8 +31,8 @@ export default class MapHeader extends Component {
                 <View style={styles.container}>
                     <ClickableIcon
                         onPress={this.props.onPressCenter}
-                        iconName={'crosshairs'}
-                        iconSize={20}
+                        name={'crosshairs'}
+                        size={20}
                     />
                 </View>
             </View>

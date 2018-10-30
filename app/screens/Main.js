@@ -10,6 +10,7 @@ import SlidingUpPanel from 'rn-sliding-up-panel';
 import ClickableIcon from './../components/ClickableIcon';
 import CommonStyles from '../styles/Common';
 import IS_ANDROID from '../utils/Helper';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 Mapbox.setAccessToken(config.get('accessToken'));
 const mapUrl = config.get('mapUrl');
@@ -79,6 +80,7 @@ const { height } = Dimensions.get('window');
     },
     detailIcons: {
       flexDirection: 'row',
+      alignItems: 'center',
       paddingTop: 5,
     },
     detailIcon: {
@@ -259,11 +261,10 @@ const { height } = Dimensions.get('window');
 
             <View style={styles.panel}>
               <View style={styles.panelHeader}>
-                <ClickableIcon
-                  iconName={'minus'}
-                  iconSize={20}
-                  iconColor={CommonStyles.primaryTextColor}
-                  touchStyle={styles.panelHederIcon} />
+                <Icon
+                  name={'minus'}
+                  size={20}
+                  color={CommonStyles.primaryTextColor}/>
               </View>
               <View style={styles.containerSheet}>
                 <Bubble>
@@ -271,20 +272,20 @@ const { height } = Dimensions.get('window');
                 </Bubble>
                 <View style={styles.detailIcons}>
                   <ClickableIcon 
-                    iconName={'facebook-square'}
+                    name={'facebook-square'}
                     touchStyle={styles.detailIcon}
                     onPress={()=> Linking.openURL(this.state.fb)}
-                    iconSize={30} />
+                    size={25} />
                   <ClickableIcon 
-                    iconName={'at'}
+                    name={'at'}
                     touchStyle={styles.detailIcon}
                     onPress={() => Linking.openURL('mailto:'+this.state.email)}
-                    iconSize={30} />
+                    size={25} />
                   <ClickableIcon 
-                    iconName={'globe'}
+                    name={'globe'}
                     touchStyle={styles.detailIcon}
                     onPress={()=> Linking.openURL(this.state.web)}
-                    iconSize={30} />
+                    size={25} />
                 </View>
               </View>
             </View>
