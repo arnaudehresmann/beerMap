@@ -15,6 +15,9 @@ const styles = StyleSheet.create({
     search:{
         flex: 6,
         margin: 10, 
+    },
+    centerIcon: {
+        marginBottom: 5,
     }
 });
 
@@ -33,6 +36,12 @@ export default class MapHeader extends Component {
                         onPress={this.props.onPressCenter}
                         name={'crosshairs'}
                         size={20}
+                        touchStyle={styles.centerIcon}
+                    />
+                    <ClickableIcon
+                        name={'compass'}
+                        size={20}
+                        onPress={this.props.onPressCompass}
                     />
                 </View>
             </View>

@@ -7,8 +7,8 @@ const styles = StyleSheet.create({
         flex: 1,
         borderRadius: 30,
         backgroundColor: CommonStyles.defaultBackgroundColor,
-        padding: 15,
-        height:60,
+        paddingLeft: 15,
+        height:40,
       },
 });
 

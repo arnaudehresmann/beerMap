@@ -174,6 +174,10 @@ const { height } = Dimensions.get('window');
       console.log(text);
     }
 
+    onPressCompass() {
+      this.map.setCamera({heading: 0});
+    }
+
     renderLastClicked() {
       if (!this.hasValidLastClick) {
         return;
@@ -239,6 +243,7 @@ const { height } = Dimensions.get('window');
           <MapHeader 
             style={styles.headerContainer}
             onSearch={(text) => this.search(text)}
+            onPressCompass={() => this.onPressCompass()}
             onPressCenter={() => this.centerOnUser(this.state.location)} />
 
           <Text style={styles.version}>Version {VersionNumber.appVersion}</Text>
