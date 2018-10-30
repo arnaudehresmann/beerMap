@@ -170,6 +170,10 @@ const { height } = Dimensions.get('window');
       }
     }
 
+    search(text){
+      console.log(text);
+    }
+
     renderLastClicked() {
       if (!this.hasValidLastClick) {
         return;
@@ -234,6 +238,7 @@ const { height } = Dimensions.get('window');
 
           <MapHeader 
             style={styles.headerContainer}
+            onSearch={(text) => this.search(text)}
             onPressCenter={() => this.centerOnUser(this.state.location)} />
 
           <Text style={styles.version}>Version {VersionNumber.appVersion}</Text>

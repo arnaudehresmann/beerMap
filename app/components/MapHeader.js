@@ -23,11 +23,11 @@ export default class MapHeader extends Component {
         super(props);   
     }
     
-
+    
     render() {
         return (
             <View style={[styles.headerContainer, this.props.style]}>
-                <Search style={styles.search}></Search>
+                <Search style={styles.search} onSearch={(text) => this.props.onSearch(text)}></Search>
                 <View style={styles.container}>
                     <ClickableIcon
                         onPress={this.props.onPressCenter}

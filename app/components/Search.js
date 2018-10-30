@@ -22,6 +22,7 @@ export default class Search extends Component {
         return (
             <TextInput
                 style={[styles.searchInput, this.props.style]}
+                onSubmitEditing={(event) => this.props.onSearch(event.nativeEvent.text)}
                 returnKeyType='search'
                 selectTextOnFocus={true}
                 placeholder="Search">   
