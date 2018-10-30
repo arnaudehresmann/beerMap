@@ -3,14 +3,13 @@ import { StyleSheet, View, Text, Dimensions, Linking } from 'react-native';
 import Mapbox from '@mapbox/react-native-mapbox-gl';
 import config from './../utils/Config';
 import breweries from './../../map/features.json'
-import Bubble from './../components/Bubble'
 import MapHeader from './../components/MapHeader';
 import VersionNumber from 'react-native-version-number';
 import SlidingUpPanel from 'rn-sliding-up-panel';
-import ClickableIcon from './../components/ClickableIcon';
 import CommonStyles from '../styles/Common';
 import IS_ANDROID from '../utils/Helper';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import BreweryDetails from '../components/BreweryDetails';
 
 Mapbox.setAccessToken(config.get('accessToken'));
 const mapUrl = config.get('mapUrl');
@@ -75,18 +74,6 @@ const { height } = Dimensions.get('window');
       alignItems: 'center',
       justifyContent: 'center'
     },
-    panelHederIcon:{
-      backgroundColor: CommonStyles.defaultPrimaryColor,
-    },
-    detailIcons: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      paddingTop: 5,
-    },
-    detailIcon: {
-      margin: 5,
-    }
-
   });
  
   export default class Main extends Component {
@@ -103,14 +90,14 @@ const { height } = Dimensions.get('window');
 
       this.state = {
         location: undefined,
-        latitude: undefined,
-        longitude: undefined,
-        title: undefined,
-        adr1: undefined,
-        adr2: undefined, 
-        web: undefined,
-        fb: undefined,
-        email: undefined,
+        latitude: 47.0879452,
+        longitude: 1.1797294,
+        title: 'LA GIRONNETTE',
+        adr1: '1 LA GIRONNERIE',
+        adr2: '37460 LOCHE SUR INDROIS', 
+        web: 'https:\/\/www.brasserielagironnette.com\/',
+        fb: 'https:\/\/www.facebook.com\/Brasserie-La-Gironnette-226772917674647\/',
+        email: 'lagironnette37@gmail.com',
         currentUser: null,  
         isFetchingAndroidPermission: IS_ANDROID,
         isAndroidPermissionGranted: false,
@@ -162,7 +149,7 @@ const { height } = Dimensions.get('window');
       console.log("is valid: " + this.hasValidLastClick);
       if (typeof geometry.coordinates[1] === 'number' &&
           typeof geometry.coordinates[0] === 'number') {
-        this._panel.transitionTo(200);
+        this._panel.transitionTo(240);
       } else
       {
         this._panel.transitionTo(0);
@@ -188,16 +175,17 @@ const { height } = Dimensions.get('window');
       if (!this.hasValidLastClick) {
         return;
       }
-  
       return (
-        <View>
-          <Text>{this.state.title}</Text>
-          <Text>{this.state.adr1}</Text>
-          <Text>{this.state.adr2}</Text>
-          <Text>{this.state.web}</Text>
-          <Text>{this.state.fb}</Text>
-          <Text>{this.state.email}</Text>
-        </View>
+        <BreweryDetails
+        style={styles.containerSheet} 
+        title={this.state.title}
+        adr1={this.state.adr1}
+        adr2={this.state.adr2}
+        fb={this.state.fb}
+        email={this.state.email}
+        web={this.state.web}>
+      </BreweryDetails>
+  
       );
     }
 
@@ -266,28 +254,7 @@ const { height } = Dimensions.get('window');
                   size={20}
                   color={CommonStyles.primaryTextColor}/>
               </View>
-              <View style={styles.containerSheet}>
-                <Bubble>
-                  {this.renderLastClicked()}
-                </Bubble>
-                <View style={styles.detailIcons}>
-                  <ClickableIcon 
-                    name={'facebook-square'}
-                    touchStyle={styles.detailIcon}
-                    onPress={()=> Linking.openURL(this.state.fb)}
-                    size={25} />
-                  <ClickableIcon 
-                    name={'at'}
-                    touchStyle={styles.detailIcon}
-                    onPress={() => Linking.openURL('mailto:'+this.state.email)}
-                    size={25} />
-                  <ClickableIcon 
-                    name={'globe'}
-                    touchStyle={styles.detailIcon}
-                    onPress={()=> Linking.openURL(this.state.web)}
-                    size={25} />
-                </View>
-              </View>
+              {this.renderLastClicked()}
             </View>
           </SlidingUpPanel>
         </View>
