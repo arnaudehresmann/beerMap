@@ -8,7 +8,8 @@ import MapHeader from './../components/MapHeader';
 import VersionNumber from 'react-native-version-number';
 import SlidingUpPanel from 'rn-sliding-up-panel';
 import ClickableIcon from './../components/ClickableIcon';
-import CommonStyles from '../styles/Common'
+import CommonStyles from '../styles/Common';
+import IS_ANDROID from '../utils/Helper';
 
 Mapbox.setAccessToken(config.get('accessToken'));
 const mapUrl = config.get('mapUrl');
@@ -109,13 +110,24 @@ const { height } = Dimensions.get('window');
         fb: undefined,
         email: undefined,
         currentUser: null,  
+        isFetchingAndroidPermission: IS_ANDROID,
+        isAndroidPermissionGranted: false,
       };
   
       this.onPress = this.onPress.bind(this);
       this.onUserLocationUpdate = this.onUserLocationUpdate.bind(this);
     }
 
- 
+    async componentDidMount() {
+      console.log('componentDidMount');
+      if (IS_ANDROID) {
+        const isGranted = await Mapbox.requestAndroidLocationPermissions();
+        this.setState({
+          isAndroidPermissionGranted: isGranted,
+          isFetchingAndroidPermission: false,
+        });
+      }
+    }
   
     get hasValidLastClick() {
       return (
