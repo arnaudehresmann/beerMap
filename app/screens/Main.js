@@ -10,6 +10,7 @@ import IS_ANDROID from '../utils/Helper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import BreweryDetails from '../components/BreweryDetails';
 import { GetStore } from '../utils/BreweryStore';
+import BreweryDetailsList from '../components/BrewereyDetailsList';
 
 Mapbox.setAccessToken(config.get('accessToken'));
 const mapUrl = config.get('mapUrl');
@@ -89,6 +90,7 @@ const { height } = Dimensions.get('window');
       super(props);
 
       this.state = {
+        searchedBreweries: [],
         location: undefined,
         latitude: undefined,
         longitude: undefined,
@@ -178,7 +180,18 @@ const { height } = Dimensions.get('window');
       const breweries = GetStore().features;
       const results = breweries.filter(function(feature) {
         return feature.properties.name.includes(text);
-      });
+      })
+        .map(function(feature){
+          return {
+            title: feature.properties.name,
+            adr1: feature.properties.adresse4 ,
+            adr2: feature.properties.adresse6,
+            web: feature.properties.website,
+            fb: feature.properties.facebook,
+            email: feature.properties.email,
+          }
+        });
+      this.setState({searchedBreweries: results});
       console.log(results);
       return Promise.resolve(1);
     }
@@ -203,6 +216,17 @@ const { height } = Dimensions.get('window');
       </BreweryDetails>
   
       );
+    }
+
+    renderSearchedBreweries() {
+      if(!this.state.searchedBreweries.length) {
+        return;
+      }
+      return(
+        <BreweryDetailsList
+          breweries={this.state.searchedBreweries}>
+        </BreweryDetailsList>
+      )
     }
 
     render() {
@@ -273,6 +297,7 @@ const { height } = Dimensions.get('window');
                   color={CommonStyles.primaryTextColor}/>
               </View>
               {this.renderLastClicked()}
+              {this.renderSearchedBreweries()}
             </View>
           </SlidingUpPanel>
         </View>
