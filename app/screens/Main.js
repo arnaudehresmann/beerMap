@@ -9,6 +9,7 @@ import CommonStyles from '../styles/Common';
 import IS_ANDROID from '../utils/Helper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import BreweryDetails from '../components/BreweryDetails';
+import { GetStore } from '../utils/BreweryStore';
 
 Mapbox.setAccessToken(config.get('accessToken'));
 const mapUrl = config.get('mapUrl');
@@ -115,6 +116,8 @@ const { height } = Dimensions.get('window');
           isFetchingAndroidPermission: false,
         });
       }
+
+      return await Promise.resolve(1);
     }
   
     get hasValidLastClick() {
@@ -170,8 +173,14 @@ const { height } = Dimensions.get('window');
       }
     }
 
-    search(text){
+    async search(text){
       console.log(text);
+      const breweries = GetStore().features;
+      const results = breweries.filter(function(feature) {
+        return feature.properties.name.includes(text);
+      });
+      console.log(results);
+      return Promise.resolve(1);
     }
 
     onPressCompass() {
@@ -218,7 +227,7 @@ const { height } = Dimensions.get('window');
               cluster
               clusterRadius={25}
               clusterMaxZoom={12}
-              url={config.get('breweriesUrl')}
+              shape={GetStore()}
               onPress={this.onPress} >
 
               <Mapbox.SymbolLayer

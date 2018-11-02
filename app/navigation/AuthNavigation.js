@@ -8,4 +8,7 @@ export default AuthNavigation = createSwitchNavigator({
     Loading: LoadingScreen,
     Login: LoginScreen,
     SignUp: SignUp
+  },
+  {
+    initialRouteName: 'Loading'
   });

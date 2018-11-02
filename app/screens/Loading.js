@@ -1,13 +1,27 @@
 import React from 'react'
 import { View, Text, ActivityIndicator, StyleSheet } from 'react-native'
-import firebase from 'react-native-firebase'
-
+import firebase, { config } from 'react-native-firebase'
+import Config from '../utils/Config'
+import { CreateStore } from '../utils/BreweryStore'
 export default class Loading extends React.Component {
 
-    componentDidMount() {
-        firebase.auth().onAuthStateChanged(user => {
-            this.props.navigation.navigate(user ? 'Main' : 'Main')
-        })
+    async componentDidMount() {
+      try {
+        let response = await fetch(
+          Config.get("breweriesUrl")
+        );
+        let breweries = await response.json();
+        CreateStore(breweries);
+        
+      } catch (error) {
+        console.error(error);
+      }
+      
+      firebase.auth().onAuthStateChanged(user => {          
+          this.props.navigation.navigate(user ? 'Main' : 'Main');
+        });
+
+        return await Promise.resolve(1);
     }
 
   render() {
