@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FlatList, View } from 'react-native';
+import { FlatList, View, TouchableOpacity } from 'react-native';
 import BreweryDetails from './BreweryDetails';
 export default class BreweryDetailsList extends Component {
     constructor(props){
@@ -12,14 +12,21 @@ export default class BreweryDetailsList extends Component {
                 <FlatList 
                  data={this.props.breweries}
                  renderItem={({item}) => 
-                 <BreweryDetails
-                 title={item.title}
-                 adr1={item.adr1}
-                 adr2={item.adr2}
-                 fb={item.fb}
-                 email={item.email}
-                 web={item.web}>
-                </BreweryDetails>}></FlatList>
+                    <TouchableOpacity 
+                        onPress={() => this.props.onPress(item.coordinates)} 
+                        onPressIn={this.props.onPressIn}
+                        onPressOut={this.props.onPressOut}>
+                        <BreweryDetails
+                            title={item.title}
+                            adr1={item.adr1}
+                            adr2={item.adr2}
+                            fb={item.fb}
+                            email={item.email}
+                            web={item.web}>
+                        </BreweryDetails>                     
+                    </TouchableOpacity>
+                }>
+                </FlatList>
           </View>
 
         );

@@ -103,9 +103,12 @@ const { height } = Dimensions.get('window');
         currentUser: null,  
         isFetchingAndroidPermission: IS_ANDROID,
         isAndroidPermissionGranted: false,
+        allowDragging: true,
       };
   
       this.onPress = this.onPress.bind(this);
+      this.centerOnBrewery = this.centerOnBrewery.bind(this);
+      this.search = this.search.bind(this);
       this.onUserLocationUpdate = this.onUserLocationUpdate.bind(this);
     }
 
@@ -153,6 +156,7 @@ const { height } = Dimensions.get('window');
       console.log("is valid: " + this.hasValidLastClick);
       if (typeof geometry.coordinates[1] === 'number' &&
           typeof geometry.coordinates[0] === 'number') {
+        this.setState({searchedBreweries: []})
         this._panel.transitionTo(240);
       } else
       {
@@ -175,29 +179,48 @@ const { height } = Dimensions.get('window');
       }
     }
 
-    async search(text){
+    search(text){
       console.log(text);
+      const textToSearch = text.toLowerCase().trim();
       const breweries = GetStore().features;
       const results = breweries.filter(function(feature) {
-        return feature.properties.name.includes(text);
+        return feature.properties.name.toLowerCase().includes(textToSearch);
       })
         .map(function(feature){
           return {
+            key: feature.id,
             title: feature.properties.name,
             adr1: feature.properties.adresse4 ,
             adr2: feature.properties.adresse6,
             web: feature.properties.website,
             fb: feature.properties.facebook,
             email: feature.properties.email,
+            coordinates: feature.geometry.coordinates,
           }
         });
-      this.setState({searchedBreweries: results});
+      this.setState({
+        searchedBreweries: results,
+        latitude: undefined,
+        longitude: undefined,
+      });
       console.log(results);
-      return Promise.resolve(1);
+    }
+
+    centerOnBrewery(coordinates) {
+      console.log('centerOnBrewery: '+coordinates);
+      this._panel.transitionTo(0);
+      this.map.setCamera({
+        centerCoordinate: coordinates,
+        zoom: 14,
+      });    
     }
 
     onPressCompass() {
       this.map.setCamera({heading: 0});
+    }
+
+    handlePanelDragging = () => {
+      this.setState({allowDragging: !this.state.allowDragging })
     }
 
     renderLastClicked() {
@@ -224,7 +247,11 @@ const { height } = Dimensions.get('window');
       }
       return(
         <BreweryDetailsList
-          breweries={this.state.searchedBreweries}>
+          breweries={this.state.searchedBreweries}
+          onPress={this.centerOnBrewery}
+          onPressIn={() => {this.handlePanelDragging()}}    
+          onPressOut={() => {this.handlePanelDragging()}} 
+         >
         </BreweryDetailsList>
       )
     }
@@ -283,6 +310,7 @@ const { height } = Dimensions.get('window');
 
           <SlidingUpPanel
             visible
+            allowDragging={this.state.allowDragging}
             startCollapsed
             showBackdrop={false}
             ref={c => this._panel = c}
