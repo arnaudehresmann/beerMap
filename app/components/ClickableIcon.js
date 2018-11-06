@@ -24,6 +24,8 @@ export default class ClickableIcon extends Component {
         return (
             <TouchableOpacity
                 onPress={() => onPress()}
+                onPressIn={this.props.onPressIn}
+                onPressOut={this.props.onPressOut}
                 style = {[styles.touch, touchStyle]}
                 >
                 <View>

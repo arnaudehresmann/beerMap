@@ -8,7 +8,6 @@ import SlidingUpPanel from 'rn-sliding-up-panel';
 import CommonStyles from '../styles/Common';
 import IS_ANDROID from '../utils/Helper';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import BreweryDetails from '../components/BreweryDetails';
 import { GetStore } from '../utils/BreweryStore';
 import BreweryDetailsList from '../components/BrewereyDetailsList';
 
@@ -92,15 +91,6 @@ const { height } = Dimensions.get('window');
       this.state = {
         searchedBreweries: [],
         location: undefined,
-        latitude: undefined,
-        longitude: undefined,
-        title: undefined,
-        adr1: undefined,
-        adr2: undefined, 
-        web: undefined,
-        fb: undefined,
-        email: undefined,
-        currentUser: null,  
         isFetchingAndroidPermission: IS_ANDROID,
         isAndroidPermissionGranted: false,
         allowDragging: true,
@@ -125,44 +115,30 @@ const { height } = Dimensions.get('window');
       return await Promise.resolve(1);
     }
   
-    get hasValidLastClick() {
-      return (
-        typeof this.state.latitude === 'number' &&
-        typeof this.state.longitude === 'number'
-      );
-    }
-
-    onMapPress(event)
-    {
-      console.log('You pressed the map here is your feature', event); // eslint-disable-line      
-    }
-
     onPress(event) {
       const feature = event.nativeEvent.payload;
       console.log('You pressed a layer here is your feature', feature); // eslint-disable-line
-      const { geometry, properties } = feature;
+      const { geometry } = feature;
   
-      this.setState({
-        latitude: geometry.coordinates[1],
-        longitude: geometry.coordinates[0],
-        title: properties.name,
-        adr1: properties.adresse4 ,
-        adr2: properties.adresse6,
-        web: properties.website,
-        fb: properties.facebook,
-        email: properties.email,
-      });
-
-      console.log("is valid: " + this.hasValidLastClick);
+      const breweries = [];
       if (typeof geometry.coordinates[1] === 'number' &&
           typeof geometry.coordinates[0] === 'number') {
-        this.setState({searchedBreweries: []})
+          breweries.push({
+            key: feature.id,
+            title: feature.properties.name,
+            adr1: feature.properties.adresse4 ,
+            adr2: feature.properties.adresse6,
+            web: feature.properties.website,
+            fb: feature.properties.facebook,
+            email: feature.properties.email,
+            coordinates: feature.geometry.coordinates,
+        });
         this._panel.transitionTo(240);
-      } else
-      {
+      } else {
         this._panel.transitionTo(0);
       }
-    }
+      this.setState({searchedBreweries: breweries})
+  }
 
     onUserLocationUpdate (location) {
       console.log(location);
@@ -200,8 +176,6 @@ const { height } = Dimensions.get('window');
         });
       this.setState({
         searchedBreweries: results,
-        latitude: undefined,
-        longitude: undefined,
       });
       console.log(results);
     }
@@ -223,25 +197,7 @@ const { height } = Dimensions.get('window');
       this.setState({allowDragging: !this.state.allowDragging })
     }
 
-    renderLastClicked() {
-      if (!this.hasValidLastClick) {
-        return;
-      }
-      return (
-        <BreweryDetails
-        style={styles.containerSheet} 
-        title={this.state.title}
-        adr1={this.state.adr1}
-        adr2={this.state.adr2}
-        fb={this.state.fb}
-        email={this.state.email}
-        web={this.state.web}>
-      </BreweryDetails>
-  
-      );
-    }
-
-    renderSearchedBreweries() {
+    renderDetails() {
       if(!this.state.searchedBreweries.length) {
         return;
       }
@@ -270,7 +226,6 @@ const { height } = Dimensions.get('window');
               zoomLevel={4.81}
               centerCoordinate={[3.315401, 47.077385]}
               style={styles.container}
-              onPress={this.onMapPress}
               ref={(c) => (this.map = c)} >
 
             <Mapbox.ShapeSource
@@ -324,8 +279,7 @@ const { height } = Dimensions.get('window');
                   size={20}
                   color={CommonStyles.primaryTextColor}/>
               </View>
-              {this.renderLastClicked()}
-              {this.renderSearchedBreweries()}
+              {this.renderDetails()}
             </View>
           </SlidingUpPanel>
         </View>

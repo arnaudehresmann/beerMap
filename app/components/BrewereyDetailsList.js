@@ -1,7 +1,17 @@
 import React, { Component } from 'react';
-import { FlatList, View, TouchableOpacity } from 'react-native';
+import { FlatList, View, StyleSheet } from 'react-native';
 import BreweryDetails from './BreweryDetails';
-export default class BreweryDetailsList extends Component {
+import CommonStyles from '../styles/Common';
+
+const styles = StyleSheet.create({
+    item: {
+        margin: 10,
+        paddingBottom: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: CommonStyles.dividerColor,
+    }
+  });
+  export default class BreweryDetailsList extends Component {
     constructor(props){
         super(props);
     }
@@ -12,11 +22,12 @@ export default class BreweryDetailsList extends Component {
                 <FlatList 
                  data={this.props.breweries}
                  renderItem={({item}) => 
-                    <TouchableOpacity 
-                        onPress={() => this.props.onPress(item.coordinates)} 
-                        onPressIn={this.props.onPressIn}
-                        onPressOut={this.props.onPressOut}>
-                        <BreweryDetails
+                    <View>
+                        <BreweryDetails  
+                            style={styles.item}
+                            onPress={() => this.props.onPress(item.coordinates)}  
+                            onPressIn={this.props.onPressIn}
+                            onPressOut={this.props.onPressOut}                        
                             title={item.title}
                             adr1={item.adr1}
                             adr2={item.adr2}
@@ -24,7 +35,7 @@ export default class BreweryDetailsList extends Component {
                             email={item.email}
                             web={item.web}>
                         </BreweryDetails>                     
-                    </TouchableOpacity>
+                    </View>
                 }>
                 </FlatList>
           </View>

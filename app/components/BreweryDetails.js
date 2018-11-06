@@ -11,6 +11,15 @@ const styles = StyleSheet.create({
     },
     detailIcon: {
       margin: 5,
+    },
+    adressContainer: {
+        flex:1,
+        flexDirection: "row",
+    },
+    iconContainer : {
+        flex: 1,
+        alignItems: "flex-end",
+        justifyContent: "center",
     }
 
   });
@@ -27,6 +36,8 @@ export default class BreweryDetails extends Component {
             name={iconName}
             touchStyle={styles.detailIcon}
             onPress={()=> Linking.openURL(link)}
+            onPressIn={this.props.onPressIn}
+            onPressOut={this.props.onPressOut}
             size={25} />)  
     }
 
@@ -47,11 +58,21 @@ export default class BreweryDetails extends Component {
 
     renderAddress() {    
         return (
-          <View>
-            <Text>{this.props.title}</Text>
-            <Text>{this.props.adr1}</Text>
-            <Text>{this.props.adr2}</Text>
-          </View>
+            <View style={styles.adressContainer}>
+                <View>
+                    <Text>{this.props.title}</Text>
+                    <Text>{this.props.adr1}</Text>
+                    <Text>{this.props.adr2}</Text>
+                </View>
+                <View style={styles.iconContainer}>
+                <ClickableIcon                     
+                    name={'arrow-right'}
+                    onPress={this.props.onPress}
+                    onPressIn={this.props.onPressIn}
+                    onPressOut={this.props.onPressOut}
+                    size={25} /> 
+                </View>
+            </View>
         );
       }
   
