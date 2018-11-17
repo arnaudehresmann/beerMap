@@ -10,6 +10,7 @@ import IS_ANDROID from '../utils/Helper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { GetStore } from '../utils/BreweryStore';
 import BreweryDetailsList from '../components/BrewereyDetailsList';
+import BreweryLoader from '../components/BreweryLoader'
 
 Mapbox.setAccessToken(config.get('accessToken'));
 const mapUrl = config.get('mapUrl');
@@ -89,6 +90,7 @@ const { height } = Dimensions.get('window');
       super(props);
 
       this.state = {
+        breweries: undefined,
         searchedBreweries: [],
         location: undefined,
         isFetchingAndroidPermission: IS_ANDROID,
@@ -215,6 +217,7 @@ const { height } = Dimensions.get('window');
     render() {
       return (
         <View style={styles.container}>
+          <BreweryLoader onBreweriesLoaded={(breweries) => this.setState({ breweries })} />
 
           <Mapbox.MapView
               styleURL={mapUrl}
@@ -233,7 +236,7 @@ const { height } = Dimensions.get('window');
               cluster
               clusterRadius={25}
               clusterMaxZoom={12}
-              shape={GetStore()}
+              shape={this.state.breweries}
               onPress={this.onPress} >
 
               <Mapbox.SymbolLayer
